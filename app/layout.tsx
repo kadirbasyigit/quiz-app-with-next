@@ -1,8 +1,8 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
-import { ReactQueryProvider } from './providers/ReactQueryProvider';
 import { NextUIProviderComponent } from './providers/NextUIProviderComponent';
+import { ReactQueryProvider } from './providers/ReactQueryProvider';
 
 const poppins = Poppins({
   subsets: ['latin'],
