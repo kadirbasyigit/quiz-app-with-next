@@ -13,6 +13,18 @@ import { CircularProgress } from '@nextui-org/react';
 import 'react-circular-progressbar/dist/styles.css';
 import { HiArrowSmRight } from 'react-icons/hi';
 import { motion } from 'framer-motion';
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  ModalProps,
+  Button,
+  useDisclosure,
+  RadioGroup,
+  Radio,
+} from '@nextui-org/react';
 
 type fields = {
   id: number;
@@ -61,6 +73,17 @@ const HomePage = () => {
   const [progressValue, setProgressValue] = useState(0);
   const [time, setTime] = useState(80);
   const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
+  const [feedback, setFeedback] = useState<
+    {
+      question: string;
+      rightAnswer: string;
+      userChoice: string;
+      questionNumber: number;
+    }[]
+  >([]);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [scrollBehavior, setScrollBehavior] =
+    useState<ModalProps['scrollBehavior']>('inside');
 
   useEffect(() => {
     const timerInterval = setInterval(() => {
@@ -86,6 +109,21 @@ const HomePage = () => {
     if (data && selectedAnswer === data[currentQuestion].fields.rightAnswer) {
       setCorrectAnswersCount(correctAnswerCount => correctAnswerCount + 1);
     }
+    if (
+      data &&
+      selectedAnswer &&
+      selectedAnswer !== data[currentQuestion].fields.rightAnswer
+    ) {
+      setFeedback(prevState => [
+        ...prevState,
+        {
+          question: data[currentQuestion]?.fields.question,
+          rightAnswer: data[currentQuestion].fields.rightAnswer,
+          userChoice: selectedAnswer,
+          questionNumber: questionCount,
+        },
+      ]);
+    }
   }
 
   function restartQuiz() {
@@ -110,13 +148,13 @@ const HomePage = () => {
     <main className="bg-[#183D3D] flex flex-col justify-center h-screen text-lg">
       {questionCount > data.length || time <= 0 ? (
         <motion.div
-          initial={{ opacity: 0, y: 20 }} // Initial animation properties
-          animate={{ opacity: 1, y: 0 }} // Animation properties when the card is visible
-          exit={{ opacity: 0, y: -20 }} // Animation properties when the card is removed
-          transition={{ duration: 0.5 }} // Animation duration
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.5 }}
           className="flex flex-col gap-8 items-center shadow-2xl rounded-md p-10 w-11/12 max-w-[500px] mx-auto text-white bg-[#062C30] "
         >
-          <h1 className="border-b-2 border-red-500 border-dashed">RESULTS</h1>
+          <h1 className="border-b-2 border-white">RESULTS</h1>
           <div className="flex gap-4 items-center">
             <p className="inline-flex items-center gap-2">
               Quiz completion rate <HiArrowSmRight className="w-5 h-5" />{' '}
@@ -142,12 +180,54 @@ const HomePage = () => {
             </span>{' '}
             out of 10 questions correctly
           </h2>
-          <button
-            className="border-2 border-teal-600 mx-auto py-2 px-4 rounded-md hover:shadow-xl transition"
-            onClick={restartQuiz}
-          >
-            Restart
-          </button>
+
+          <div className="flex items-center gap-4">
+            <Button className="text-sm md:text-base" onPress={onOpen}>
+              Open detailed feedback
+            </Button>
+            <Button
+              className="text-sm md:text-base bg-[#183D3D] text-white"
+              onClick={restartQuiz}
+            >
+              Restart
+            </Button>
+            <Modal
+              isOpen={isOpen}
+              onOpenChange={onOpenChange}
+              scrollBehavior={scrollBehavior}
+            >
+              <ModalContent>
+                {onClose => (
+                  <>
+                    <ModalHeader className="flex flex-col gap-1">
+                      Detailed Results
+                    </ModalHeader>
+                    <ModalBody className="bg-[#183D3D] text-white/80">
+                      {feedback.map(item => (
+                        <div key={item.question} className="mb-4">
+                          <h2 className="mb-2 font-medium">
+                            {' '}
+                            {item.questionNumber}. {item.question}
+                          </h2>
+                          <p className="mb-1 font-light">
+                            Correct answer: {item.rightAnswer}
+                          </p>
+                          <p className="font-light">
+                            Your answer: {item.userChoice}
+                          </p>
+                        </div>
+                      ))}
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button color="danger" variant="light" onPress={onClose}>
+                        Close
+                      </Button>
+                    </ModalFooter>
+                  </>
+                )}
+              </ModalContent>
+            </Modal>
+          </div>
         </motion.div>
       ) : (
         <motion.div
