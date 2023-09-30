@@ -1,0 +1,25 @@
+.card {
+  border: 2px solid white;
+  animation: borderHueRotate 120s linear infinite;
+}
+
+@keyframes borderHueRotate {
+  0% {
+    border-color: #fff;
+  }
+  10% {
+    border-color: #efe6e6;
+  }
+  70% {
+    border-color: #a77a7a;
+  }
+  80% {
+    border-color: #894d4d;
+  }
+  90% {
+    border-color: #844646;
+  }
+  100% {
+    border-color: #702828;
+  }
+}
