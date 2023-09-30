@@ -11,8 +11,8 @@ import styles from './page.module.css';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import { CircularProgress } from '@nextui-org/react';
 import 'react-circular-progressbar/dist/styles.css';
-import { GiCheckMark } from 'react-icons/gi';
 import { HiArrowSmRight } from 'react-icons/hi';
+import { motion } from 'framer-motion';
 
 type fields = {
   id: number;
@@ -59,7 +59,7 @@ const HomePage = () => {
   const [selectedAnswer, setSelectAnswer] = useState<undefined | string>();
   const [randomNumbersArrayIndex, setRandomNumbersArrayIndex] = useState(0);
   const [progressValue, setProgressValue] = useState(0);
-  const [time, setTime] = useState(120);
+  const [time, setTime] = useState(80);
   const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
 
   useEffect(() => {
@@ -95,7 +95,7 @@ const HomePage = () => {
     setSelectAnswer(undefined);
     setRandomNumbersArrayIndex(0);
     setProgressValue(0);
-    setTime(120);
+    setTime(80);
   }
 
   if (isLoading || !data) {
@@ -109,7 +109,13 @@ const HomePage = () => {
   return (
     <main className="bg-[#183D3D] flex flex-col justify-center h-screen text-lg">
       {questionCount > data.length || time <= 0 ? (
-        <div className="flex flex-col gap-8 items-center shadow-2xl rounded-md p-10 w-11/12 max-w-[500px] mx-auto text-white">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }} // Initial animation properties
+          animate={{ opacity: 1, y: 0 }} // Animation properties when the card is visible
+          exit={{ opacity: 0, y: -20 }} // Animation properties when the card is removed
+          transition={{ duration: 0.5 }} // Animation duration
+          className="flex flex-col gap-8 items-center shadow-2xl rounded-md p-10 w-11/12 max-w-[500px] mx-auto text-white bg-[#062C30] "
+        >
           <h1 className="border-b-2 border-red-500 border-dashed">RESULTS</h1>
           <div className="flex gap-4 items-center">
             <p className="inline-flex items-center gap-2">
@@ -142,36 +148,35 @@ const HomePage = () => {
           >
             Restart
           </button>
-        </div>
+        </motion.div>
       ) : (
-        <div
-          className={`${styles.card} grid gap-8 shadow-2xl rounded-lg p-10 w-11/12 max-w-[500px] mx-auto text-white/90`}
+        <motion.div
+          key={currentQuestion}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.5 }}
+          className={`${styles.card} grid gap-8 shadow-2xl rounded-lg p-10 w-11/12 max-w-[500px] mx-auto text-white/90 bg-[#062C30] `}
         >
-          <h2 className="text-base md:text-lg">
+          <h2 className="text-base md:text-lg text-yellow-500 ">
             {' '}
             {questionCount}. {data[currentQuestion]?.fields.question}{' '}
           </h2>
           <div className="flex flex-col gap-4">
             {data[currentQuestion]?.fields.answers.map(answer => (
-              <div
+              <button
                 key={answer}
-                className={`border-3 p-2 rounded-lg transition flex items-center cursor-pointer  ${
+                className={`border-3 p-2 rounded-lg transition text-center cursor-pointer text-sm md:text-base  ${
                   selectedAnswer === answer
-                    ? 'border-teal-500'
+                    ? 'border-teal-500 bg-white text-lime-950'
                     : 'border-white/50 hover:border-teal-300'
                 }`}
                 onClick={() => {
                   selectedAnswerHandler(answer);
                 }}
               >
-                <button className="mx-auto text-sm md:text-base">
-                  {' '}
-                  {answer}
-                </button>
-                {selectedAnswer === answer && (
-                  <GiCheckMark className="w-5 h-5" />
-                )}
-              </div>
+                {answer}
+              </button>
             ))}
           </div>
           <div className="grid grid-cols-5">
@@ -203,7 +208,7 @@ const HomePage = () => {
               className="w-16 h-16"
               value={time}
               minValue={0}
-              maxValue={120}
+              maxValue={80}
               text={`${time}`}
               strokeWidth={12}
               styles={buildStyles({
@@ -214,7 +219,7 @@ const HomePage = () => {
               })}
             />
           </div>
-        </div>
+        </motion.div>
       )}
     </main>
   );
