@@ -4,6 +4,9 @@ import { useQuery } from 'react-query';
 import axios from 'axios';
 import { AxiosError } from 'axios';
 import contentfulConfig from './contentful/contentfulConfig';
+import { generateUniqueRandomNumbers } from './lib/utils/UniqueRandomNumber';
+import { useMemo } from 'react';
+import LoadingSkeleton from './components/LoadingSkeleton';
 
 type fields = {
   id: number;
@@ -17,6 +20,8 @@ type QuizData = {
 };
 
 const HomePage = () => {
+  // ?DATA FETCHING
+
   const { data, isLoading, isError } = useQuery<QuizData[]>(
     'contentfulData',
     fetchQuizData
@@ -38,7 +43,22 @@ const HomePage = () => {
     }
   }
 
-  console.log(data);
+  // ?TAKE AND STORE UNİQUE RANDOM NUMBERS ARRAY
+
+  const uniqueRandomNumbers: number[] = useMemo(
+    generateUniqueRandomNumbers,
+    []
+  );
+
+  if (isLoading || !data) {
+    return <LoadingSkeleton />;
+  }
+
+  if (isError) {
+    return <div>Error fetching data from Contentful.</div>;
+  }
+
+  return <div>hi</div>;
 };
 
 export default HomePage;
