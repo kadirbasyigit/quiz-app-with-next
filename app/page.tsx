@@ -281,7 +281,7 @@ const HomePage = () => {
                   : 'border-red-600 border-2 text-white'
               } col-span-3 w-fit place-self-center bg-transparent  text-sm md:text-base hover:shadow-xl border-teal-700 py-3 px-4 rounded-md ease-in duration-150 disabled:cursor-not-allowed disabled:shadow-none`}
             >
-              Next Question
+              {questionCount === 10 ? 'Finish Quiz' : 'Next Question'}
             </button>
 
             <CircularProgressbar
