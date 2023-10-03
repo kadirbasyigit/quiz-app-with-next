@@ -13,18 +13,8 @@ import { CircularProgress } from '@nextui-org/react';
 import 'react-circular-progressbar/dist/styles.css';
 import { HiArrowSmRight } from 'react-icons/hi';
 import { motion } from 'framer-motion';
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  ModalProps,
-  Button,
-  useDisclosure,
-  RadioGroup,
-  Radio,
-} from '@nextui-org/react';
+import { Button } from '@nextui-org/react';
+import ResultsModal from './shared/ResultsModal';
 
 type fields = {
   id: number;
@@ -81,9 +71,6 @@ const HomePage = () => {
       questionNumber: number;
     }[]
   >([]);
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [scrollBehavior, setScrollBehavior] =
-    useState<ModalProps['scrollBehavior']>('inside');
 
   useEffect(() => {
     const timerInterval = setInterval(() => {
@@ -182,51 +169,18 @@ const HomePage = () => {
           </h2>
 
           <div className="flex items-center gap-4">
-            <Button className="text-sm md:text-base" onPress={onOpen}>
-              Open detailed feedback
-            </Button>
+            <ResultsModal
+              modalTitle="Detailed Results"
+              feedback={feedback}
+              closeButtonText="Close"
+              openModalButtonText="Open detailed feedback"
+            />
             <Button
               className="text-sm md:text-base bg-[#183D3D] text-white"
               onClick={restartQuiz}
             >
               Restart
             </Button>
-            <Modal
-              isOpen={isOpen}
-              onOpenChange={onOpenChange}
-              scrollBehavior={scrollBehavior}
-            >
-              <ModalContent>
-                {onClose => (
-                  <>
-                    <ModalHeader className="flex flex-col gap-1">
-                      Detailed Results
-                    </ModalHeader>
-                    <ModalBody className="bg-[#183D3D] text-white/80">
-                      {feedback.map(item => (
-                        <div key={item.question} className="mb-4">
-                          <h2 className="mb-2 font-medium">
-                            {' '}
-                            {item.questionNumber}. {item.question}
-                          </h2>
-                          <p className="mb-1 font-light">
-                            Correct answer: {item.rightAnswer}
-                          </p>
-                          <p className="font-light">
-                            Your answer: {item.userChoice}
-                          </p>
-                        </div>
-                      ))}
-                    </ModalBody>
-                    <ModalFooter>
-                      <Button color="danger" variant="light" onPress={onClose}>
-                        Close
-                      </Button>
-                    </ModalFooter>
-                  </>
-                )}
-              </ModalContent>
-            </Modal>
           </div>
         </motion.div>
       ) : (
