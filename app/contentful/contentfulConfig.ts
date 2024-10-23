@@ -1,6 +1,6 @@
 const contentfulConfig = {
-  spaceId: '513yrt3pwfxx',
-  accessToken: 'UJF0T0kuAfGZ9_tNZpaZ1Am98OU09QA2wHynmaSQ6No',
+  spaceId: process.env.SPACE_ID,
+  accessToken: process.env.ACCESS_TOKEN,
 };
 
 export default contentfulConfig;
