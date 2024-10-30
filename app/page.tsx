@@ -124,6 +124,15 @@ const HomePage = () => {
     setTime(80);
   }
 
+  const getBorderColor = (time: number): string => {
+    if (time > 70) return '#fff';
+    if (time > 50) return '#efe6e6';
+    if (time > 30) return '#a77a7a';
+    if (time > 10) return '#894d4d';
+    if (time > 5) return '#844646';
+    return '#702828';
+  };
+
   return (
     <main className="bg-[#183D3D] flex flex-col justify-center h-screen text-lg">
       {questionCount > data.length || time <= 0 ? (
@@ -183,7 +192,11 @@ const HomePage = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.5 }}
-          className={`${styles.card} grid gap-8 shadow-2xl rounded-lg p-10 w-11/12 max-w-[500px] mx-auto text-white/90 bg-[#062C30] `}
+          className="grid gap-8 shadow-2xl rounded-lg p-10 w-11/12 max-w-[500px] mx-auto text-white/90 bg-[#062C30]"
+          style={{
+            border: '3px solid #fff',
+            borderColor: getBorderColor(time),
+          }}
         >
           <h2 className="text-base md:text-lg text-yellow-500 ">
             {' '}
