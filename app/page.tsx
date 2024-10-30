@@ -3,8 +3,7 @@
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import { AxiosError } from 'axios';
-import { contentfulConfig } from './contentful/contentfulConfig';
-import { generateUniqueRandomNumbers } from './lib/utils/UniqueRandomNumber';
+import { generateUniqueRandomNumbers } from './lib/utils/UniqueRandomNumbers';
 import { useMemo, useState, useEffect } from 'react';
 import LoadingSkeleton from './components/LoadingSkeleton';
 import styles from './page.module.css';
@@ -16,7 +15,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@nextui-org/react';
 import ResultsModal from './shared/ResultsModal';
 
-type fields = {
+type Fields = {
   id: number;
   question: string;
   answers: string[];
@@ -24,33 +23,12 @@ type fields = {
 };
 
 type QuizData = {
-  fields: fields;
+  fields: Fields;
 };
 
 const HomePage = () => {
-  const { data, isLoading, isError } = useQuery<QuizData[]>(
-    'contentfulData',
-    fetchQuizData
-  );
-
-  async function fetchQuizData() {
-    try {
-      const { spaceId, accessToken } = contentfulConfig;
-      const response = await axios.get(
-        `https://cdn.contentful.com/spaces/${spaceId}/entries?access_token=${accessToken}`
-      );
-
-      return response.data.items;
-    } catch (error) {
-      const axiosError = error as AxiosError;
-      throw new Error(
-        'Error fetching data from Contentful: ' + axiosError.message
-      );
-    }
-  }
-
   const uniqueRandomNumbers: number[] = useMemo(
-    generateUniqueRandomNumbers,
+    () => generateUniqueRandomNumbers(),
     []
   );
 
@@ -77,6 +55,31 @@ const HomePage = () => {
 
     return () => clearInterval(timerInterval);
   }, []);
+
+  const { data, isLoading, isError } = useQuery<QuizData[], AxiosError>(
+    'quizData',
+    fetchQuizData
+  );
+
+  async function fetchQuizData() {
+    try {
+      const response = await axios.get('/api/fetchQuizData');
+      return response.data;
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      throw new Error(
+        'Error fetching data from the API: ' + axiosError.message
+      );
+    }
+  }
+
+  if (isLoading || !data) {
+    return <LoadingSkeleton />;
+  }
+
+  if (isError) {
+    return <div>Error fetching data from Contentful.</div>;
+  }
 
   function selectedAnswerHandler(answer: string) {
     setSelectAnswer(answer);
@@ -119,14 +122,6 @@ const HomePage = () => {
     setRandomNumbersArrayIndex(0);
     setProgressValue(0);
     setTime(80);
-  }
-
-  if (isLoading || !data) {
-    return <LoadingSkeleton />;
-  }
-
-  if (isError) {
-    return <div>Error fetching data from Contentful.</div>;
   }
 
   return (
