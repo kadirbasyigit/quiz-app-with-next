@@ -3,7 +3,7 @@
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import { AxiosError } from 'axios';
-import contentfulConfig from './contentful/contentfulConfig';
+import { contentfulConfig } from './contentful/contentfulConfig';
 import { generateUniqueRandomNumbers } from './lib/utils/UniqueRandomNumber';
 import { useMemo, useState, useEffect } from 'react';
 import LoadingSkeleton from './components/LoadingSkeleton';
