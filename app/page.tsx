@@ -3,7 +3,6 @@
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import { AxiosError } from 'axios';
-import contentfulConfig from './contentfulConfig';
 import { useState, useMemo, useEffect } from 'react';
 import { CircularProgress } from '@nextui-org/react';
 import LoadingSkeleton from './components/LoadingSkeleton';
@@ -12,6 +11,7 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { GiCheckMark } from 'react-icons/gi';
 import { HiArrowSmRight } from 'react-icons/hi';
+import { contentfulConfig } from './contentfulConfig';
 
 type fields = {
   id: number;
@@ -198,9 +198,9 @@ const HomePage = () => {
               onClick={nextQuestionButtonHandler}
               className={`${
                 selectedAnswer
-                  ? 'bg-white border-2 border-transparent text-lime-950'
-                  : 'border-red-600 border-2'
-              } col-span-3 w-fit place-self-center bg-transparent text-white text-sm md:text-base hover:shadow-xl border-teal-700 py-3 px-4 rounded-md ease-in duration-150 disabled:cursor-not-allowed disabled:shadow-none`}
+                  ? 'bg-white border-2 border-transparent text-lime-900 font-bold'
+                  : ''
+              } col-span-3 w-fit place-self-center bg-transparent text-white text-sm md:text-base hover:shadow-xl border-teal-700 border-2 py-3 px-4 rounded-md ease-in duration-150 disabled:cursor-not-allowed disabled:shadow-none`}
             >
               Next Question
             </button>
