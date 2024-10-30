@@ -1,3 +1,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.modal-scroll {
+  max-height: 400px; /* Yüksekliği ihtiyacınıza göre ayarlayın */
+  overflow-y: auto; /* Dikey kaydırmayı etkinleştirir */
+  padding-right: 0;
+}
+
+/* Webkit based browsers (Chrome, Safari) */
+.modal-scroll::-webkit-scrollbar {
+  width: 8px; /* Scroll çubuğu genişliği */
+}
+
+.modal-scroll::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Track rengi */
+  border-radius: 10px;
+}
+
+.modal-scroll::-webkit-scrollbar-thumb {
+  background: #f8b4ca; /* Thumb rengi */
+  border-radius: 10px;
+}
+
+.modal-scroll::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Thumb hover rengi */
+}
