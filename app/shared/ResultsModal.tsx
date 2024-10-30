@@ -50,19 +50,23 @@ const ResultsModal = ({
               <ModalHeader className="flex flex-col gap-1">
                 {modalTitle}
               </ModalHeader>
-              <ModalBody className="bg-[#183D3D] text-white/80">
-                {feedback.map(item => (
-                  <div key={item.question} className="mb-4">
-                    <h2 className="mb-2 font-medium">
-                      {' '}
-                      {item.questionNumber}. {item.question}
-                    </h2>
-                    <p className="mb-1 font-light">
-                      Correct answer: {item.rightAnswer}
-                    </p>
-                    <p className="font-light">Your answer: {item.userChoice}</p>
-                  </div>
-                ))}
+              <ModalBody className="bg-[#183D3D] text-white/80 pr-0 pl-6">
+                <div className="modal-scroll">
+                  {feedback.map(item => (
+                    <div key={item.question} className="mb-4">
+                      <h2 className="mb-2 font-medium">
+                        {' '}
+                        {item.questionNumber}. {item.question}
+                      </h2>
+                      <p className="mb-1 font-light">
+                        Correct answer: {item.rightAnswer}
+                      </p>
+                      <p className="font-light">
+                        Your answer: {item.userChoice}
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
