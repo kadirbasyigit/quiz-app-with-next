@@ -28,7 +28,6 @@ type QuizData = {
 };
 
 const HomePage = () => {
-  // ?DATA FETCHING
   const { data, isLoading, isError } = useQuery<QuizData[]>(
     'contentfulData',
     fetchQuizData
@@ -50,7 +49,6 @@ const HomePage = () => {
     }
   }
 
-  // ?TAKE AND STORE UNİQUE RANDOM NUMBERS ARRAY
   const uniqueRandomNumbers: number[] = useMemo(
     generateUniqueRandomNumbers,
     []

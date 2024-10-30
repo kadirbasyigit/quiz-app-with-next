@@ -10,15 +10,15 @@ const LoadingSkeleton = () => {
           <Skeleton className="flex w-full h-10 rounded-lg bg-sky-500" />
         </div>
         <div className="w-full flex flex-col gap-2">
-          <Skeleton className="h-10 w-full rounded-lg bg-indigo-500" />
-          <Skeleton className="h-10 w-full rounded-lg bg-indigo-500" />
-          <Skeleton className="h-10 w-full rounded-lg bg-indigo-500" />
-          <Skeleton className="h-10 w-full rounded-lg bg-indigo-500" />
+          <Skeleton className="h-10 w-full rounded-lg bg-sky-500" />
+          <Skeleton className="h-10 w-full rounded-lg bg-sky-500" />
+          <Skeleton className="h-10 w-full rounded-lg bg-sky-500" />
+          <Skeleton className="h-10 w-full rounded-lg bg-sky-500" />
         </div>
         <div className="flex justify-between items-center gap-4">
-          <Skeleton className="h-16 w-16 rounded-full bg-pink-300" />
-          <Skeleton className="h-10 w-32 rounded-lg bg-pink-300" />
-          <Skeleton className="h-16 w-16 rounded-full bg-pink-300" />
+          <Skeleton className="h-16 w-16 rounded-full bg-sky-500" />
+          <Skeleton className="h-10 w-32 rounded-lg bg-sky-500" />
+          <Skeleton className="h-16 w-16 rounded-full bg-sky-500" />
         </div>
       </div>
     </div>
