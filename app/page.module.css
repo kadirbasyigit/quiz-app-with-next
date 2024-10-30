@@ -1,6 +1,6 @@
 .card {
   border: 2px solid white;
-  animation: borderHueRotate 120s linear infinite;
+  animation: borderHueRotate 80s linear infinite;
 }
 
 @keyframes borderHueRotate {

@@ -1,17 +1,17 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
-import { ReactQueryProvider } from './ReactQueryProvider';
-import { Providers } from './providers';
+import { NextUIProviderComponent } from './providers/NextUIProviderComponent';
+import { ReactQueryProvider } from './providers/ReactQueryProvider';
 
 const poppins = Poppins({
   subsets: ['latin'],
-  weight: '400',
+  weight: ['300', '400', '500', '700', '900'],
 });
 
 export const metadata: Metadata = {
-  title: 'Next Quiz App',
-  description: 'Nextjs 13 quiz app powered by contentful',
+  title: 'Quiz App',
+  description: 'Simple quiz app built with nextjs 13',
 };
 
 export default function RootLayout({
@@ -20,12 +20,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ReactQueryProvider>
-      <html lang="en">
-        <body className={poppins.className}>
-          <Providers>{children}</Providers>
-        </body>
-      </html>
-    </ReactQueryProvider>
+    <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.ico" />
+      </head>
+      <body className={poppins.className}>
+        <ReactQueryProvider>
+          <NextUIProviderComponent>{children}</NextUIProviderComponent>
+        </ReactQueryProvider>
+      </body>
+    </html>
   );
 }
